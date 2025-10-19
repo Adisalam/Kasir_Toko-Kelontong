@@ -98,7 +98,7 @@ public class Profile extends javax.swing.JDialog {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
         jLabel4.setText(AdminPage.P.getNama());
-        jLabel5.setText(AdminPage.P.getJabatan());
+        jLabel5.setText(AdminPage.P.getLevel());
     }//GEN-LAST:event_formWindowOpened
 
     /**
