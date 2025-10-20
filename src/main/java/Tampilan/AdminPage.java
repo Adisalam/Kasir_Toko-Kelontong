@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package tampilan;
+
 import java.awt.BorderLayout;
 import java.awt.Frame;
 import javax.swing.JPanel;
@@ -16,6 +17,7 @@ import tampilan.panels.ManageUers;
 public class AdminPage extends javax.swing.JFrame {
 
     public static Pegawai P;
+
     /**
      * Creates new form AdminPage
      */
@@ -129,20 +131,20 @@ public class AdminPage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        labelPengguna.setText(P.getNama()); 
+        labelPengguna.setText(P.getNama());
     }//GEN-LAST:event_formWindowOpened
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        this.setVisible(false); 
+        this.setVisible(false);
         LoginPage L = new LoginPage();
         L.setVisible(true);
-        L.setExtendedState(Frame.MAXIMIZED_BOTH); 
+        L.setExtendedState(Frame.MAXIMIZED_BOTH);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void labelPenggunaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelPenggunaMouseClicked
         Profile P = new Profile(this, true);
-       P.setVisible(true); 
-       
+        P.setVisible(true);
+
     }//GEN-LAST:event_labelPenggunaMouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -153,32 +155,16 @@ public class AdminPage extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AdminPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AdminPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AdminPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AdminPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            // HANYA DI SINI FlatLaf DITERAPKAN KE SEMUA KOMPONEN
+            com.formdev.flatlaf.FlatLightLaf.setup();
+        } catch (Exception ex) {
+            System.err.println("Failed to initialize FlatLaf: " + ex);
         }
-        //</editor-fold>
 
-        /* Create and display the form */
+        /* Buat dan tampilkan form */
         java.awt.EventQueue.invokeLater(() -> {
-            new AdminPage().setVisible(true);
+            new LoginPage().setVisible(true);
         });
     }
 
@@ -191,8 +177,8 @@ public class AdminPage extends javax.swing.JFrame {
     private javax.swing.JPanel panelContent;
     // End of variables declaration//GEN-END:variables
 
-    private void addViews(JPanel Panel){
-        if(panelContent.getComponentCount() > 0){
+    private void addViews(JPanel Panel) {
+        if (panelContent.getComponentCount() > 0) {
             panelContent.removeAll();
         }
         panelContent.add(Panel, BorderLayout.CENTER);

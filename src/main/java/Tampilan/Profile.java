@@ -105,6 +105,19 @@ public class Profile extends javax.swing.JDialog {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        
+        try {
+            // HANYA DI SINI FlatLaf DITERAPKAN KE SEMUA KOMPONEN
+            com.formdev.flatlaf.FlatLightLaf.setup();
+        } catch (Exception ex) {
+            System.err.println("Failed to initialize FlatLaf: " + ex);
+        }
+
+        /* Buat dan tampilkan form */
+        java.awt.EventQueue.invokeLater(() -> {
+            new LoginPage().setVisible(true);
+        });
+
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
