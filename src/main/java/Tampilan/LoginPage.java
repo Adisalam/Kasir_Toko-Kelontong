@@ -6,15 +6,11 @@ package tampilan;
 
 import tampilan.obj.Pegawai;
 import java.awt.Frame;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import tampilan.obj.Koneksi;
 
 /**
@@ -40,13 +36,7 @@ public class LoginPage extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jPanel1 = new JPanel() {
-            public void paintComponent(Graphics g) {
-                Image img = Toolkit.getDefaultToolkit().getImage(
-                    LoginPage.class.getResource("/bg/bg_toko.jpg"));
-                g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
-            }
-        };
+        jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -61,7 +51,7 @@ public class LoginPage extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(204, 204, 255));
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        jPanel2.setBackground(new java.awt.Color(255, 204, 204));
+        jPanel2.setBackground(new java.awt.Color(51, 153, 255));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -169,37 +159,6 @@ public class LoginPage extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LoginPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LoginPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LoginPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LoginPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {
-            LoginPage LP = new LoginPage();
-            LP.setVisible(true);
-            LP.setExtendedState(Frame.MAXIMIZED_BOTH);
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogin;
@@ -221,39 +180,52 @@ public class LoginPage extends javax.swing.JFrame {
 //            System.out.println(user);
 //            System.out.println(pass);
 //            
-            String Q = "SELECT * FROM `pengguna` WHERE username='"+user+"' AND password='"+pass+"'";
+            String Q = "SELECT * FROM `pengguna` WHERE username='" + user + "' AND password='" + pass + "'";
             Connection K = Koneksi.Go();
-            
+
             Statement S = K.createStatement();
             ResultSet R = S.executeQuery(Q);
-            
+
             int n = 0;
             Pegawai Pg = new Pegawai();
-            
-            while (R.next()) {                 
-                n++;                
-                Pg.setId(R.getInt("id_user")); 
-                Pg.setNama(R.getString("nama_lengkap")); 
-                Pg.setLevel(R.getString("level")); 
-                Pg.setUsername(R.getString("username")); 
-                Pg.setPasssword(R.getString("password")); 
+
+            while (R.next()) {
+                n++;
+                Pg.setId(R.getInt("id_user"));
+                Pg.setNama(R.getString("nama_lengkap"));
+                Pg.setLevel(R.getString("level"));
+                Pg.setUsername(R.getString("username"));
+                Pg.setPasssword(R.getString("password"));
             }
 //            
-            if(n > 0){
-                if(Pg.getLevel().equals("admin")){                    
+            if (n > 0) {
+                if (Pg.getLevel().equals("admin")) {
                     AdminPage Adm = new AdminPage();
                     AdminPage.P = Pg;
-                    Adm.setVisible(true); 
-                    this.setVisible(false); 
-                    Adm.setExtendedState(Frame.MAXIMIZED_BOTH); 
+                    Adm.setVisible(true);
+                    this.setVisible(false);
+                    Adm.setExtendedState(Frame.MAXIMIZED_BOTH);
                 }
             }
-            
-            
+
         } catch (SQLException e) {
             //penanganan error/error handling
             //System.err.println("Error: "+e.getMessage());
-            JOptionPane.showMessageDialog(this, "Error: "+e.getMessage());
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
         }
+    }
+
+    public static void main(String args[]) {
+        try {
+            // HANYA DI SINI FlatLaf DITERAPKAN KE SEMUA KOMPONEN
+            com.formdev.flatlaf.FlatLightLaf.setup();
+        } catch (Exception ex) {
+            System.err.println("Failed to initialize FlatLaf: " + ex);
+        }
+
+        /* Buat dan tampilkan form */
+        java.awt.EventQueue.invokeLater(() -> {
+            new LoginPage().setVisible(true);
+        });
     }
 }
