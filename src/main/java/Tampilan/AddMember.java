@@ -4,6 +4,8 @@
  */
 package tampilan;
 
+import com.formdev.flatlaf.FlatLightLaf;
+
 /**
  *
  * @author mnish
@@ -12,6 +14,7 @@ public class AddMember extends javax.swing.JDialog {
 
     /**
      * Creates new form AddMember
+     *
      * @param parent
      * @param modal
      */
@@ -51,6 +54,19 @@ public class AddMember extends javax.swing.JDialog {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+
+        try {
+            // HANYA DI SINI FlatLaf DITERAPKAN KE SEMUA KOMPONEN
+            com.formdev.flatlaf.FlatLightLaf.setup(); // Tambahkan import FlatLaf
+        } catch (Exception ex) {
+            System.err.println("Failed to initialize FlatLaf: " + ex);
+        }
+
+        /* Buat dan tampilkan form */
+        java.awt.EventQueue.invokeLater(() -> {
+            new AdminPage().setVisible(true); // ✅ Perbaiki ini menjadi AdminPage
+        });
+
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -86,6 +102,7 @@ public class AddMember extends javax.swing.JDialog {
             dialog.setVisible(true);
         });
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

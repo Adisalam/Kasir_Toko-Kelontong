@@ -4,6 +4,8 @@
  */
 package tampilan;
 
+import com.formdev.flatlaf.FlatLightLaf;
+
 /**
  *
  * @author mnish
@@ -12,6 +14,7 @@ public class Profile extends javax.swing.JDialog {
 
     /**
      * Creates new form Profile
+     *
      * @param parent
      * @param modal
      */
@@ -105,17 +108,22 @@ public class Profile extends javax.swing.JDialog {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        
+
         try {
             // HANYA DI SINI FlatLaf DITERAPKAN KE SEMUA KOMPONEN
-            com.formdev.flatlaf.FlatLightLaf.setup();
+            com.formdev.flatlaf.FlatLightLaf.setup(); // Tambahkan import FlatLaf
         } catch (Exception ex) {
             System.err.println("Failed to initialize FlatLaf: " + ex);
         }
 
         /* Buat dan tampilkan form */
         java.awt.EventQueue.invokeLater(() -> {
-            new LoginPage().setVisible(true);
+            new AdminPage().setVisible(true); // ✅ Perbaiki ini menjadi AdminPage
+        });
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(() -> {
+            new AdminPage().setVisible(true);
         });
 
         /* Set the Nimbus look and feel */

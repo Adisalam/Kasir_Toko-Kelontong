@@ -9,6 +9,7 @@ import java.awt.Frame;
 import javax.swing.JPanel;
 import tampilan.obj.Pegawai;
 import tampilan.panels.ManageUers;
+import com.formdev.flatlaf.FlatLightLaf;
 
 /**
  *
@@ -154,19 +155,6 @@ public class AdminPage extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        try {
-            // HANYA DI SINI FlatLaf DITERAPKAN KE SEMUA KOMPONEN
-            com.formdev.flatlaf.FlatLightLaf.setup();
-        } catch (Exception ex) {
-            System.err.println("Failed to initialize FlatLaf: " + ex);
-        }
-
-        /* Buat dan tampilkan form */
-        java.awt.EventQueue.invokeLater(() -> {
-            new LoginPage().setVisible(true);
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -184,6 +172,22 @@ public class AdminPage extends javax.swing.JFrame {
         panelContent.add(Panel, BorderLayout.CENTER);
         panelContent.revalidate();
         panelContent.repaint();
+    }
+
+    // DI AdminPage.java - public static void main(String args[])
+    // DI AdminPage.java - public static void main(String args[])
+    public static void main(String args[]) {
+        try {
+            // HANYA DI SINI FlatLaf DITERAPKAN KE SEMUA KOMPONEN
+            com.formdev.flatlaf.FlatLightLaf.setup(); // Tambahkan import FlatLaf
+        } catch (Exception ex) {
+            System.err.println("Failed to initialize FlatLaf: " + ex);
+        }
+
+        /* Buat dan tampilkan form */
+        java.awt.EventQueue.invokeLater(() -> {
+            new AdminPage().setVisible(true); // ✅ Perbaiki ini menjadi AdminPage
+        });
     }
 
 }

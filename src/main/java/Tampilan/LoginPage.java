@@ -34,7 +34,6 @@ public class LoginPage extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -52,6 +51,7 @@ public class LoginPage extends javax.swing.JFrame {
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         jPanel2.setBackground(new java.awt.Color(51, 153, 255));
+        jPanel2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -126,14 +126,7 @@ public class LoginPage extends javax.swing.JFrame {
                 .addContainerGap(39, Short.MAX_VALUE))
         );
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipadx = 23;
-        gridBagConstraints.ipady = 33;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(79, 180, 101, 179);
-        jPanel1.add(jPanel2, gridBagConstraints);
+        jPanel1.add(jPanel2, new java.awt.GridBagConstraints());
         jPanel1.add(jTabbedPane1, new java.awt.GridBagConstraints());
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
@@ -193,7 +186,7 @@ public class LoginPage extends javax.swing.JFrame {
                 n++;
                 Pg.setId(R.getInt("id_user"));
                 Pg.setNama(R.getString("nama_lengkap"));
-                Pg.setLevel(R.getString("level"));
+                Pg.setLevel(R.getString("pegawai"));
                 Pg.setUsername(R.getString("username"));
                 Pg.setPasssword(R.getString("password"));
             }

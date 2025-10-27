@@ -4,7 +4,13 @@
  */
 package tampilan.panels;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.table.DefaultTableModel;
 import tampilan.AddMember;
+import tampilan.obj.Koneksi;
 
 /**
  *
@@ -50,6 +56,11 @@ public class ManageUers extends javax.swing.JPanel {
         });
 
         jButton2.setText("Hapus Data");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Edit Data");
 
@@ -92,13 +103,13 @@ public class ManageUers extends javax.swing.JPanel {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "Nama", "Username", "Password", "Jabatan"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -111,6 +122,10 @@ public class ManageUers extends javax.swing.JPanel {
         Am.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -120,7 +135,45 @@ public class ManageUers extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    public static javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
+
+     public static void RefreshData(){
+        try {
+            jTable1.setRowHeight(30); 
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            
+            for (int i = model.getRowCount()-1; i>=0; i--) {
+                model.removeRow(i); 
+            }
+            
+            String Q = "SELECT * FROM Pegawai";
+            Connection C = Koneksi.Go();
+            Statement S = C.createStatement();
+            ResultSet R = S.executeQuery(Q);
+            while (R.next()) {                 
+                int ID = R.getInt("id");
+                String NAMA = R.getString("nama");
+                String JABATAN = R.getString("jabatan");
+                String USERNAME = R.getString("username");
+                String PASSWORD = R.getString("password");
+                Object[] datausers = {ID, NAMA, JABATAN, USERNAME, PASSWORD};
+                model.addRow(datausers); 
+            }
+            
+        } catch (SQLException e) {
+        }
+    }
+
+    private static class jTablel1 {
+
+        private static void setRowHeight(int par) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        public jTablel1() {
+        }
+    }
+
 }
