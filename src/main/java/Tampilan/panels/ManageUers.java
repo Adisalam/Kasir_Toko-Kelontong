@@ -11,6 +11,7 @@ import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import tampilan.AddMember;
+import tampilan.EditMember;
 import tampilan.obj.Koneksi;
 import tampilan.obj.Pegawai;
 
@@ -19,6 +20,8 @@ import tampilan.obj.Pegawai;
  * @author mnish
  */
 public class ManageUers extends javax.swing.JPanel {
+
+    private Pegawai Px;
 
     /**
      * Creates new form ManageUers
@@ -66,6 +69,11 @@ public class ManageUers extends javax.swing.JPanel {
         });
 
         jButton3.setText("Edit Data");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -152,8 +160,18 @@ public class ManageUers extends javax.swing.JPanel {
             Px.setJabatan(jabatan);
             Px.setUsername(username);
             Px.setPasssword(password);
-        }        // TODO add your handling code here:
+        } 
     }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        if(jTable1.getSelectedRow() != -1){
+            EditMember em = new EditMember(null, true);
+            em.P = Px;
+            em.setVisible(true); 
+        }else {
+            //
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

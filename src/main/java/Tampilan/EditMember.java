@@ -11,24 +11,23 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import tampilan.panels.ManageUers;
 import tampilan.obj.Koneksi;
+import tampilan.obj.Pegawai;
 
 /**
  *
  * @author mnish
  */
-public class AddMember extends javax.swing.JDialog {
+public class EditMember extends javax.swing.JDialog {
+
+    public Pegawai P;
 
     /**
      * Creates new form AddMember
-     *
-     * @param parent
-     * @param modal
      */
-    public AddMember(java.awt.Frame parent, boolean modal) {
+    public EditMember(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -143,7 +142,7 @@ public class AddMember extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
-        simpanData();
+        editData();
     }//GEN-LAST:event_btnSimpanActionPerformed
 
     private void btnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatalActionPerformed
@@ -154,6 +153,14 @@ public class AddMember extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPasswordActionPerformed
 
+     private void formWindowOpened(java.awt.event.WindowEvent evt) {                                  
+        txtNama.setText(P.getNama()); 
+        cmbJabatan.setSelectedItem(P.getJabatan()); 
+        txtUsername.setText(P.getUsername()); 
+        txtPassword.setText(P.getPasssword()); 
+        
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -179,13 +186,13 @@ public class AddMember extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AddMember.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditMember.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AddMember.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditMember.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AddMember.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditMember.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AddMember.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditMember.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
         /* Set the Nimbus look and feel */
@@ -214,7 +221,7 @@ public class AddMember extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                AddMember dialog = new AddMember(new javax.swing.JFrame(), true);
+                EditMember dialog = new EditMember(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -242,30 +249,34 @@ public class AddMember extends javax.swing.JDialog {
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 
-    private void simpanData() {
+     private void editData() {
         try {
             String nama = txtNama.getText();
             String jabatan = cmbJabatan.getSelectedItem().toString();
             String username = txtUsername.getText();
             String password = new String(txtPassword.getPassword());
             
-            String Q = "INSERT INTO pengguna "
-                    + "(nama_lengkap,pegawai,username,password) "
-                    + "VALUES "
-                    + "(?,?,?,?)";
+            String Q = "UPDATE pegawai SET "
+                    + "nama_pegawai=?, "
+                    + "jabatan=?, "
+                    + "username=?, "
+                    + "password_hash=? "
+                    + "WHERE "
+                    + "id_pegawai=?";
             Connection C = Koneksi.Go();
             PreparedStatement PS = C.prepareStatement(Q);
             PS.setString(1, nama);
             PS.setString(2, jabatan);
             PS.setString(3, username);
             PS.setString(4, password);
+            PS.setInt(5, P.getId());
             PS.executeUpdate();
             
             //refresh data
             ManageUers.RefreshData();
-            this.setVisible(false);
+            this.setVisible(false); 
             
-            JOptionPane.showMessageDialog(null, "Berhasil menyimpan data"); 
+            JOptionPane.showMessageDialog(null, "Berhasil merubah data"); 
         } catch (SQLException e) {
             System.err.println("Error:@simpanData() => "+e.getMessage());
         }
