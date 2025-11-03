@@ -8,9 +8,11 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import tampilan.AddMember;
 import tampilan.obj.Koneksi;
+import tampilan.obj.Pegawai;
 
 /**
  *
@@ -23,6 +25,7 @@ public class ManageUers extends javax.swing.JPanel {
      */
     public ManageUers() {
         initComponents();
+        RefreshData();
     }
 
     /**
@@ -112,6 +115,11 @@ public class ManageUers extends javax.swing.JPanel {
                 "ID", "Nama", "Username", "Password", "Jabatan"
             }
         ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         add(jScrollPane1, java.awt.BorderLayout.CENTER);
@@ -126,6 +134,27 @@ public class ManageUers extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        int n = jTable1.getSelectedRow();
+        if (n != -1) {
+            jButton2.setEnabled(true);
+            jButton3.setEnabled(true);
+
+            Pegawai Px = new Pegawai();
+            int id = Integer.parseInt(jTable1.getValueAt(n, 0).toString());
+            String nama = jTable1.getValueAt(n, 1).toString();
+            String jabatan = jTable1.getValueAt(n, 2).toString();
+            String username = jTable1.getValueAt(n, 3).toString();
+            String password = jTable1.getValueAt(n, 4).toString();
+
+            Px.setId(id);
+            Px.setNama(nama);
+            Px.setJabatan(jabatan);
+            Px.setUsername(username);
+            Px.setPasssword(password);
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_jTable1MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -139,40 +168,40 @@ public class ManageUers extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 
-     public static void RefreshData(){
+    public static void RefreshData() {
         try {
-            jTable1.setRowHeight(30); 
+            jTable1.setRowHeight(30);
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-            
-            for (int i = model.getRowCount()-1; i>=0; i--) {
-                model.removeRow(i); 
+
+            // Mengosongkan tabel sebelum diisi
+            for (int i = model.getRowCount() - 1; i >= 0; i--) {
+                model.removeRow(i);
             }
-            
-            String Q = "SELECT * FROM Pegawai";
-            Connection C = Koneksi.Go();
-            Statement S = C.createStatement();
+
+            Connection K = Koneksi.Go();
+            Statement S = K.createStatement();
+
+            // LANGKAH 1: Pastikan nama tabel 'pengguna' (atau 'pegawai' jika itu yang benar)
+            String Q = "SELECT * FROM pengguna";
+
             ResultSet R = S.executeQuery(Q);
-            while (R.next()) {                 
-                int ID = R.getInt("id");
-                String NAMA = R.getString("nama");
-                String JABATAN = R.getString("jabatan");
+            while (R.next()) {
+                int ID = R.getInt("id_user");
+                String NAMA = R.getString("nama_lengkap"); // Pastikan nama kolom ini benar
+                String JABATAN = R.getString("pegawai");   // Pastikan nama kolom ini benar
                 String USERNAME = R.getString("username");
-                String PASSWORD = R.getString("password");
-                Object[] datausers = {ID, NAMA, JABATAN, USERNAME, PASSWORD};
-                model.addRow(datausers); 
+                String PASSWORD = R.getString("password"); // Sebaiknya jangan tampilkan password
+
+                // LANGKAH 2: Sesuaikan urutan object agar cocok dengan JTable
+                // Urutan JTable: ID, Nama, Username, Password, Jabatan
+                Object[] datausers = {ID, NAMA, USERNAME, PASSWORD, JABATAN};
+
+                model.addRow(datausers);
             }
-            
+
         } catch (SQLException e) {
-        }
-    }
-
-    private static class jTablel1 {
-
-        private static void setRowHeight(int par) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        }
-
-        public jTablel1() {
+            // Tampilkan pesan error jika query gagal
+            JOptionPane.showMessageDialog(null, "Gagal memuat data: " + e.getMessage());
         }
     }
 
