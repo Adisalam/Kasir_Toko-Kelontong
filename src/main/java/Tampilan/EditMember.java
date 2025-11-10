@@ -28,6 +28,7 @@ public class EditMember extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -52,8 +53,13 @@ public class EditMember extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Tambah Data Pengguna");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
-        jLabel1.setText("Nama Lengkap");
+        jLabel1.setText("Nama");
 
         jLabel2.setText("Username");
 
@@ -94,7 +100,7 @@ public class EditMember extends javax.swing.JDialog {
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(txtUsername)
                     .addComponent(txtNama)
@@ -153,14 +159,14 @@ public class EditMember extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPasswordActionPerformed
 
-     private void formWindowOpened(java.awt.event.WindowEvent evt) {                                  
-        txtNama.setText(P.getNama()); 
-        cmbJabatan.setSelectedItem(P.getJabatan()); 
-        txtUsername.setText(P.getUsername()); 
-        txtPassword.setText(P.getPasssword()); 
-        
-    }
-    
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        txtNama.setText(P.getNama());
+        cmbJabatan.setSelectedItem(P.getJabatan());
+        txtUsername.setText(P.getUsername());
+        txtPassword.setText(P.getPasssword());
+    }//GEN-LAST:event_formWindowOpened
+
+
     /**
      * @param args the command line arguments
      */
@@ -249,20 +255,20 @@ public class EditMember extends javax.swing.JDialog {
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 
-     private void editData() {
+    private void editData() {
         try {
             String nama = txtNama.getText();
             String jabatan = cmbJabatan.getSelectedItem().toString();
             String username = txtUsername.getText();
             String password = new String(txtPassword.getPassword());
-            
+
             String Q = "UPDATE pegawai SET "
-                    + "nama_pegawai=?, "
-                    + "jabatan=?, "
+                    + "nama_lengkap=?, "
+                    + "pegawai=?, "
                     + "username=?, "
-                    + "password_hash=? "
+                    + "password=? "
                     + "WHERE "
-                    + "id_pegawai=?";
+                    + "id_user=?";
             Connection C = Koneksi.Go();
             PreparedStatement PS = C.prepareStatement(Q);
             PS.setString(1, nama);
@@ -271,14 +277,14 @@ public class EditMember extends javax.swing.JDialog {
             PS.setString(4, password);
             PS.setInt(5, P.getId());
             PS.executeUpdate();
-            
+
             //refresh data
             ManageUers.RefreshData();
-            this.setVisible(false); 
-            
-            JOptionPane.showMessageDialog(null, "Berhasil merubah data"); 
+            this.setVisible(false);
+
+            JOptionPane.showMessageDialog(null, "Berhasil merubah data");
         } catch (SQLException e) {
-            System.err.println("Error:@simpanData() => "+e.getMessage());
+            System.err.println("Error:@simpanData() => " + e.getMessage());
         }
     }
 }
