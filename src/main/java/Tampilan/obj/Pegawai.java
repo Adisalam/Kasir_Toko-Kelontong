@@ -6,7 +6,7 @@ public class Pegawai {
     private String nama;
     private String jabatan;
     private String username;
-    private String passsword;
+    private String password;
     private String level;
 
     public int getId() {
@@ -42,11 +42,11 @@ public class Pegawai {
     }
 
     public String getPasssword() {
-        return passsword;
+        return password;
     }
 
-    public void setPasssword(String passsword) {
-        this.passsword = passsword;
+    public void setPasssword(String password) {
+        this.password = password;
     }
     
     public String getLevel() {
@@ -56,6 +56,10 @@ public class Pegawai {
     // KODE PERBAIKAN DI PEGAWAI.JAVA
     public void setLevel(String level) {
         this.level = level; // Asumsi ada private String level;
+    }
+
+    public String getPassword() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

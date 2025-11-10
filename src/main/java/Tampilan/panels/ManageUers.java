@@ -4,17 +4,18 @@
  */
 package tampilan.panels;
 
+
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
-import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 import tampilan.AddMember;
-import tampilan.EditMember;
+import Tampilan.DeleteMember;
+import Tampilan.EditMember;
+import java.sql.SQLException;
 import tampilan.obj.Koneksi;
 import tampilan.obj.Pegawai;
-
 /**
  *
  * @author mnish
@@ -139,7 +140,9 @@ public class ManageUers extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        DeleteMember dm = new DeleteMember(null, true);
+        dm.P = Px;
+        dm.setVisible(true); 
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
@@ -148,7 +151,7 @@ public class ManageUers extends javax.swing.JPanel {
             jButton2.setEnabled(true);
             jButton3.setEnabled(true);
 
-            Pegawai Px = new Pegawai();
+            Px = new Pegawai();
             int id = Integer.parseInt(jTable1.getValueAt(n, 0).toString());
             String nama = jTable1.getValueAt(n, 1).toString();
             String jabatan = jTable1.getValueAt(n, 2).toString();
@@ -219,7 +222,6 @@ public class ManageUers extends javax.swing.JPanel {
 
         } catch (SQLException e) {
             // Tampilkan pesan error jika query gagal
-            JOptionPane.showMessageDialog(null, "Gagal memuat data: " + e.getMessage());
         }
     }
 

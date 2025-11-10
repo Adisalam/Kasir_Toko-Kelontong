@@ -4,7 +4,6 @@
  */
 package tampilan;
 
-import com.formdev.flatlaf.FlatLightLaf;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -263,7 +262,7 @@ public class AddMember extends javax.swing.JDialog {
             
             //refresh data
             ManageUers.RefreshData();
-            this.setVisible(false);
+            this.setVisible(false); 
             
             JOptionPane.showMessageDialog(null, "Berhasil menyimpan data"); 
         } catch (SQLException e) {
