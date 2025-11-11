@@ -4,18 +4,18 @@
  */
 package tampilan.panels;
 
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 import tampilan.AddMember;
-import Tampilan.DeleteMember;
-import Tampilan.EditMember;
+import tampilan.DeleteMember;
+import tampilan.EditMember;
 import java.sql.SQLException;
 import tampilan.obj.Koneksi;
 import tampilan.obj.Pegawai;
+
 /**
  *
  * @author mnish
@@ -142,7 +142,7 @@ public class ManageUers extends javax.swing.JPanel {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         DeleteMember dm = new DeleteMember(null, true);
         dm.P = Px;
-        dm.setVisible(true); 
+        dm.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
@@ -154,24 +154,27 @@ public class ManageUers extends javax.swing.JPanel {
             Px = new Pegawai();
             int id = Integer.parseInt(jTable1.getValueAt(n, 0).toString());
             String nama = jTable1.getValueAt(n, 1).toString();
-            String jabatan = jTable1.getValueAt(n, 2).toString();
-            String username = jTable1.getValueAt(n, 3).toString();
-            String password = jTable1.getValueAt(n, 4).toString();
+            String username = jTable1.getValueAt(n, 2).toString();
+            String password = jTable1.getValueAt(n, 3).toString();
+            String jabatan = jTable1.getValueAt(n, 4).toString();
 
             Px.setId(id);
             Px.setNama(nama);
             Px.setJabatan(jabatan);
             Px.setUsername(username);
             Px.setPasssword(password);
-        } 
+
+            Px.setJabatan(jabatan);
+            Px.setLevel(jabatan);
+        }
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        if(jTable1.getSelectedRow() != -1){
+        if (jTable1.getSelectedRow() != -1) {
             EditMember em = new EditMember(null, true);
             em.P = Px;
-            em.setVisible(true); 
-        }else {
+            em.setVisible(true);
+        } else {
             //
         }
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -209,9 +212,9 @@ public class ManageUers extends javax.swing.JPanel {
             while (R.next()) {
                 int ID = R.getInt("id_user");
                 String NAMA = R.getString("nama_lengkap"); // Pastikan nama kolom ini benar
-                String JABATAN = R.getString("pegawai");   // Pastikan nama kolom ini benar
                 String USERNAME = R.getString("username");
                 String PASSWORD = R.getString("password"); // Sebaiknya jangan tampilkan password
+                String JABATAN = R.getString("pegawai");   // Pastikan nama kolom ini benar
 
                 // LANGKAH 2: Sesuaikan urutan object agar cocok dengan JTable
                 // Urutan JTable: ID, Nama, Username, Password, Jabatan
