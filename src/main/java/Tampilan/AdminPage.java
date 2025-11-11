@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import tampilan.obj.Pegawai;
 import tampilan.panels.ManageUers;
 import com.formdev.flatlaf.FlatLightLaf;
+import tampilan.panels.ManageProducts;
 
 /**
  *
@@ -183,7 +184,7 @@ public class AdminPage extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3MouseClicked
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        addViews(new ManageProducts());
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
