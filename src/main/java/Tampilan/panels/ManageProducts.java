@@ -87,7 +87,7 @@ public class ManageProducts extends javax.swing.JPanel {
                 .addComponent(btnHapus)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnEdit)
-                .addContainerGap(403, Short.MAX_VALUE))
+                .addContainerGap(464, Short.MAX_VALUE))
         );
         panelTombolLayout.setVerticalGroup(
             panelTombolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -131,16 +131,16 @@ public class ManageProducts extends javax.swing.JPanel {
         panelPreviewLayout.setHorizontalGroup(
             panelPreviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelPreviewLayout.createSequentialGroup()
-                .addContainerGap(19, Short.MAX_VALUE)
-                .addComponent(lblImagePreview)
-                .addGap(18, 18, 18))
+                .addContainerGap(53, Short.MAX_VALUE)
+                .addComponent(lblImagePreview, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42))
         );
         panelPreviewLayout.setVerticalGroup(
             panelPreviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelPreviewLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblImagePreview)
-                .addContainerGap(405, Short.MAX_VALUE))
+                .addGap(17, 17, 17)
+                .addComponent(lblImagePreview, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(520, Short.MAX_VALUE))
         );
 
         add(panelPreview, java.awt.BorderLayout.LINE_END);
