@@ -123,7 +123,7 @@ public class LoginPage extends javax.swing.JFrame {
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPanel2, new java.awt.GridBagConstraints());
@@ -173,7 +173,7 @@ public class LoginPage extends javax.swing.JFrame {
 //            System.out.println(user);
 //            System.out.println(pass);
 //            
-            String Q = "SELECT * FROM `pengguna` WHERE username='" + user + "' AND password='" + pass + "'";
+            String Q = "SELECT * FROM `pengguna` WHERE username ='" + user + "' AND password='" + pass + "'";
             Connection K = Koneksi.Go();
 
             Statement S = K.createStatement();

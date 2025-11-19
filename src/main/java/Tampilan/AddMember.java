@@ -249,7 +249,7 @@ public class AddMember extends javax.swing.JDialog {
             String password = new String(txtPassword.getPassword());
             
             String Q = "INSERT INTO pengguna "
-                    + "(nama_lengkap,pegawai,username,password) "
+                    + "(nama_lengkap,pegawai, username,password) "
                     + "VALUES "
                     + "(?,?,?,?)";
             Connection C = Koneksi.Go();
