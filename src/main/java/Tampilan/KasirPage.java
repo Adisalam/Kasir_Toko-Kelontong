@@ -29,20 +29,20 @@ public class KasirPage extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel3 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        LabelPengguna = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        LabelDashboard = new javax.swing.JLabel();
+        LabelTransaksi = new javax.swing.JLabel();
+        LabelLaporan = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel3.setBackground(new java.awt.Color(0, 204, 255));
         jPanel3.setPreferredSize(new java.awt.Dimension(587, 50));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel1.setText("Nama");
+        LabelPengguna.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        LabelPengguna.setText("Nama");
 
         jButton1.setBackground(new java.awt.Color(204, 0, 0));
         jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -55,7 +55,7 @@ public class KasirPage extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(434, Short.MAX_VALUE)
-                .addComponent(jLabel1)
+                .addComponent(LabelPengguna)
                 .addGap(27, 27, 27)
                 .addComponent(jButton1)
                 .addGap(16, 16, 16))
@@ -65,7 +65,7 @@ public class KasirPage extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                    .addComponent(LabelPengguna)
                     .addComponent(jButton1))
                 .addContainerGap(9, Short.MAX_VALUE))
         );
@@ -73,15 +73,19 @@ public class KasirPage extends javax.swing.JFrame {
         getContentPane().add(jPanel3, java.awt.BorderLayout.PAGE_START);
 
         jPanel1.setBackground(new java.awt.Color(0, 51, 51));
+        jPanel1.setPreferredSize(new java.awt.Dimension(130, 389));
 
-        jLabel2.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel2.setText("Dashboard");
+        LabelDashboard.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        LabelDashboard.setForeground(new java.awt.Color(204, 204, 204));
+        LabelDashboard.setText("Dashboard");
 
-        jLabel3.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel3.setText("Transaksi");
+        LabelTransaksi.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        LabelTransaksi.setForeground(new java.awt.Color(204, 204, 204));
+        LabelTransaksi.setText("Transaksi");
 
-        jLabel4.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel4.setText("Laporan");
+        LabelLaporan.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        LabelLaporan.setForeground(new java.awt.Color(204, 204, 204));
+        LabelLaporan.setText("Laporan");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -90,21 +94,21 @@ public class KasirPage extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel2))
-                .addContainerGap(14, Short.MAX_VALUE))
+                    .addComponent(LabelLaporan)
+                    .addComponent(LabelTransaksi)
+                    .addComponent(LabelDashboard))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(34, 34, 34)
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel3)
+                .addComponent(LabelDashboard)
                 .addGap(28, 28, 28)
-                .addComponent(jLabel4)
-                .addContainerGap(261, Short.MAX_VALUE))
+                .addComponent(LabelTransaksi)
+                .addGap(26, 26, 26)
+                .addComponent(LabelLaporan)
+                .addContainerGap(241, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.LINE_START);
@@ -138,11 +142,11 @@ public class KasirPage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel LabelDashboard;
+    private javax.swing.JLabel LabelLaporan;
+    private javax.swing.JLabel LabelPengguna;
+    private javax.swing.JLabel LabelTransaksi;
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     // End of variables declaration//GEN-END:variables
