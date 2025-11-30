@@ -192,13 +192,34 @@ public class LoginPage extends javax.swing.JFrame {
             }
 //            
             if (n > 0) {
-                if (Pg.getLevel().equals("admin")) {
+                // Ambil level/jabatan dari objek Pegawai
+                String level = Pg.getLevel();
+
+                // Gunakan equalsIgnoreCase agar tidak peduli huruf besar/kecil (ADMIN/admin)
+                if (level.equalsIgnoreCase("ADMIN")) {
                     AdminPage Adm = new AdminPage();
-                    AdminPage.P = Pg;
+                    AdminPage.P = Pg; // Kirim data user ke AdminPage
                     Adm.setVisible(true);
-                    this.setVisible(false);
-                    Adm.setExtendedState(Frame.MAXIMIZED_BOTH);
+                    this.setVisible(false); // Tutup Login Page
+                    Adm.setExtendedState(Frame.MAXIMIZED_BOTH); // Full screen
+
+                } else if (level.equalsIgnoreCase("KASIR")) {
+                    // --- LOGIKA BARU UNTUK KASIR ---
+                    KasirPage Kasir = new KasirPage();
+                    KasirPage.P = Pg; // Kirim data user ke KasirPage (Penting!)
+                    Kasir.setVisible(true);
+                    this.setVisible(false); // Tutup Login Page
+                    Kasir.setExtendedState(Frame.MAXIMIZED_BOTH); // Full screen (opsional)
+
+                } else if (level.equalsIgnoreCase("MANAJER")) {
+                    // Tambahkan logika manajer jika ada
+                    JOptionPane.showMessageDialog(this, "Halaman Manajer belum dibuat");
+                } else {
+                    // Jika level tidak dikenali
+                    JOptionPane.showMessageDialog(this, "Akses Ditolak: Level tidak dikenali.");
                 }
+            } else {
+                JOptionPane.showMessageDialog(this, "Username atau Password salah!");
             }
 
         } catch (SQLException e) {

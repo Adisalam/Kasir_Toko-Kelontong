@@ -23,7 +23,7 @@ import tampilan.obj.Pegawai;
 public class ManageUers extends javax.swing.JPanel {
 
     private Pegawai Px;
-
+    
     /**
      * Creates new form ManageUers
      */

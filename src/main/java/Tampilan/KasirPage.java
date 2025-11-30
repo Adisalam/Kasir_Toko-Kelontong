@@ -2,8 +2,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package Tampilan;
+package tampilan;
 
+import java.awt.BorderLayout;
+import java.awt.Frame;
+import javax.swing.JPanel;
+import tampilan.obj.Pegawai;
+import tampilan.panels.ManageUers;
+import tampilan.panels.Dashboard;
+import tampilan.panels.ManageProducts;
 /**
  *
  * @author ACER
@@ -11,7 +18,7 @@ package Tampilan;
 public class KasirPage extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(KasirPage.class.getName());
-
+    public static tampilan.obj.Pegawai P;
     /**
      * Creates new form KasirPage
      */
@@ -29,25 +36,35 @@ public class KasirPage extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel3 = new javax.swing.JPanel();
-        LabelPengguna = new javax.swing.JLabel();
+        labelPenggunaKasir = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        LabelDashboard = new javax.swing.JLabel();
-        LabelTransaksi = new javax.swing.JLabel();
-        LabelLaporan = new javax.swing.JLabel();
+        labelDashboard = new javax.swing.JLabel();
+        labelTransaksi = new javax.swing.JLabel();
+        labelLaporan = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jPanel3.setBackground(new java.awt.Color(0, 204, 255));
         jPanel3.setPreferredSize(new java.awt.Dimension(587, 50));
 
-        LabelPengguna.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        LabelPengguna.setText("Nama");
+        labelPenggunaKasir.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        labelPenggunaKasir.setText("Nama");
 
         jButton1.setBackground(new java.awt.Color(204, 0, 0));
         jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Logout");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -55,7 +72,7 @@ public class KasirPage extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(434, Short.MAX_VALUE)
-                .addComponent(LabelPengguna)
+                .addComponent(labelPenggunaKasir)
                 .addGap(27, 27, 27)
                 .addComponent(jButton1)
                 .addGap(16, 16, 16))
@@ -65,7 +82,7 @@ public class KasirPage extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(LabelPengguna)
+                    .addComponent(labelPenggunaKasir)
                     .addComponent(jButton1))
                 .addContainerGap(9, Short.MAX_VALUE))
         );
@@ -75,17 +92,22 @@ public class KasirPage extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(0, 51, 51));
         jPanel1.setPreferredSize(new java.awt.Dimension(130, 389));
 
-        LabelDashboard.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        LabelDashboard.setForeground(new java.awt.Color(204, 204, 204));
-        LabelDashboard.setText("Dashboard");
+        labelDashboard.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        labelDashboard.setForeground(new java.awt.Color(204, 204, 204));
+        labelDashboard.setText("Dashboard");
+        labelDashboard.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                labelDashboardMouseClicked(evt);
+            }
+        });
 
-        LabelTransaksi.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        LabelTransaksi.setForeground(new java.awt.Color(204, 204, 204));
-        LabelTransaksi.setText("Transaksi");
+        labelTransaksi.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        labelTransaksi.setForeground(new java.awt.Color(204, 204, 204));
+        labelTransaksi.setText("Transaksi");
 
-        LabelLaporan.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        LabelLaporan.setForeground(new java.awt.Color(204, 204, 204));
-        LabelLaporan.setText("Laporan");
+        labelLaporan.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        labelLaporan.setForeground(new java.awt.Color(204, 204, 204));
+        labelLaporan.setText("Laporan");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -94,20 +116,20 @@ public class KasirPage extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(LabelLaporan)
-                    .addComponent(LabelTransaksi)
-                    .addComponent(LabelDashboard))
+                    .addComponent(labelLaporan)
+                    .addComponent(labelTransaksi)
+                    .addComponent(labelDashboard))
                 .addContainerGap(42, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(34, 34, 34)
-                .addComponent(LabelDashboard)
+                .addComponent(labelDashboard)
                 .addGap(28, 28, 28)
-                .addComponent(LabelTransaksi)
+                .addComponent(labelTransaksi)
                 .addGap(26, 26, 26)
-                .addComponent(LabelLaporan)
+                .addComponent(labelLaporan)
                 .addContainerGap(241, Short.MAX_VALUE))
         );
 
@@ -115,6 +137,21 @@ public class KasirPage extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        labelPenggunaKasir.setText(P.getNama());
+    }//GEN-LAST:event_formWindowOpened
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.setVisible(false);
+        LoginPage L = new LoginPage();
+        L.setVisible(true);
+        L.setExtendedState(Frame.MAXIMIZED_BOTH);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void labelDashboardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelDashboardMouseClicked
+        addViews(new tampilan.panels.Dashboard());
+    }//GEN-LAST:event_labelDashboardMouseClicked
 
     /**
      * @param args the command line arguments
@@ -142,12 +179,16 @@ public class KasirPage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel LabelDashboard;
-    private javax.swing.JLabel LabelLaporan;
-    private javax.swing.JLabel LabelPengguna;
-    private javax.swing.JLabel LabelTransaksi;
     private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JLabel labelDashboard;
+    private javax.swing.JLabel labelLaporan;
+    private javax.swing.JLabel labelPenggunaKasir;
+    private javax.swing.JLabel labelTransaksi;
     // End of variables declaration//GEN-END:variables
+
+    private void addViews(Dashboard dashboard) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
