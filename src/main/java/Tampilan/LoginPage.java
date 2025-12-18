@@ -135,8 +135,7 @@ public class LoginPage extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    
-    
+
     private void txtUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsernameActionPerformed
         // TODO add your handling code here:
         txtPassword.requestFocus();
@@ -206,12 +205,11 @@ public class LoginPage extends javax.swing.JFrame {
                     Adm.setExtendedState(Frame.MAXIMIZED_BOTH); // Full screen
 
                 } else if (level.equalsIgnoreCase("KASIR")) {
-                    // --- LOGIKA BARU UNTUK KASIR ---
                     KasirPage Kasir = new KasirPage();
-                    KasirPage.P = Pg; // Kirim data user ke KasirPage (Penting!)
+                    KasirPage.P = Pg; // Kirim data pegawai ke KasirPage
                     Kasir.setVisible(true);
-                    this.setVisible(false); // Tutup Login Page
-                    Kasir.setExtendedState(Frame.MAXIMIZED_BOTH); // Full screen (opsional)
+                    this.dispose();
+                    Kasir.setExtendedState(Frame.MAXIMIZED_BOTH);
 
                 } else if (level.equalsIgnoreCase("MANAJER")) {
                     // Tambahkan logika manajer jika ada
