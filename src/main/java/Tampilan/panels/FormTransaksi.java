@@ -2,7 +2,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package Tampilan.panels;
+package tampilan.panels;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import tampilan.obj.Koneksi;
 
 /**
  *
@@ -10,13 +18,18 @@ package Tampilan.panels;
  */
 public class FormTransaksi extends javax.swing.JPanel {
 
+    private DefaultTableModel modelProduk;
+    private DefaultTableModel modelKeranjang;
+
     /**
      * Creates new form FormTransaksi
      */
     public FormTransaksi() {
         initComponents();
+        setupTable();
+        loadDataProduk();
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -53,15 +66,20 @@ public class FormTransaksi extends javax.swing.JPanel {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Menu", "Kategori", "Harga"
             }
         ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         tblDaftarProduk.setViewportView(jTable1);
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -77,6 +95,11 @@ public class FormTransaksi extends javax.swing.JPanel {
         btnTambah.setBackground(new java.awt.Color(0, 153, 51));
         btnTambah.setForeground(new java.awt.Color(255, 255, 255));
         btnTambah.setText("Add");
+        btnTambah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTambahActionPerformed(evt);
+            }
+        });
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -113,15 +136,6 @@ public class FormTransaksi extends javax.swing.JPanel {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(txtKembali))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(txtCash))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(txtTotalBayar))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addContainerGap()
@@ -132,7 +146,13 @@ public class FormTransaksi extends javax.swing.JPanel {
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(14, 14, 14)
                                 .addComponent(jButton1)))
-                        .addGap(0, 6, Short.MAX_VALUE)))
+                        .addGap(0, 6, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtKembali)
+                            .addComponent(txtCash)
+                            .addComponent(txtTotalBayar))))
                 .addGap(12, 12, 12))
         );
         jPanel3Layout.setVerticalGroup(
@@ -223,6 +243,86 @@ public class FormTransaksi extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        int row = jTable1.getSelectedRow();
+        if (row != -1) {
+            String nama = jTable1.getValueAt(row, 0).toString();
+            String harga = jTable1.getValueAt(row, 2).toString();
+
+            txtProduk.setText(nama);
+            txtHarga.setText(harga);
+            txtJumlahProduk.setText("1");
+            txtJumlahProduk.requestFocus();
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
+        try {
+            String nama = txtProduk.getText();
+            double harga = Double.parseDouble(txtHarga.getText());
+            int qty = Integer.parseInt(txtJumlahProduk.getText());
+            double subtotal = harga * qty;
+
+            modelKeranjang.addRow(new Object[]{nama, harga, qty, subtotal});
+
+            // Hitung Total Bayar otomatis
+            hitungTotal();
+
+            // Reset input
+            txtProduk.setText("");
+            txtHarga.setText("");
+            txtJumlahProduk.setText("");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Pilih produk dan isi jumlah dengan benar!");
+        }
+    }//GEN-LAST:event_btnTambahActionPerformed
+
+    private void hitungTotal() {
+        double total = 0;
+        for (int i = 0; i < jTable2.getRowCount(); i++) {
+            total += Double.parseDouble(jTable2.getValueAt(i, 3).toString());
+        }
+        txtTotalBayar.setText(String.valueOf(total));
+    }
+
+    public void loadDataProduk() {
+        modelProduk.setRowCount(0); // Bersihkan tabel dulu
+        try {
+            Connection K = Koneksi.Go();
+            Statement S = K.createStatement();
+            // Query mengambil data produk
+            String Q = "SELECT nama_produk, kategori, harga_jual FROM produk";
+            ResultSet R = S.executeQuery(Q);
+
+            while (R.next()) {
+                Object[] data = {
+                    R.getString("nama_produk"),
+                    R.getString("kategori"),
+                    R.getDouble("harga_jual")
+                };
+                modelProduk.addRow(data);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error Load Data: " + e.getMessage());
+        }
+    }
+
+    private void setupTable() {
+        // Setup Tabel Kiri (Daftar Produk dari DB)
+        modelProduk = new DefaultTableModel();
+        modelProduk.addColumn("Nama Produk");
+        modelProduk.addColumn("Kategori");
+        modelProduk.addColumn("Harga");
+        jTable1.setModel(modelProduk);
+
+        // Setup Tabel Kanan (Keranjang Belanja)
+        modelKeranjang = new DefaultTableModel();
+        modelKeranjang.addColumn("Nama");
+        modelKeranjang.addColumn("Harga");
+        modelKeranjang.addColumn("Qty");
+        modelKeranjang.addColumn("Subtotal");
+        jTable2.setModel(modelKeranjang);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnTambah;

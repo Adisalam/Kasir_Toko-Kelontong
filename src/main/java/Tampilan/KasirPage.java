@@ -10,20 +10,24 @@ import javax.swing.JPanel;
 import tampilan.obj.Pegawai;
 import tampilan.panels.ManageUers;
 import tampilan.panels.Dashboard;
+import tampilan.panels.FormTransaksi;
 import tampilan.panels.ManageProducts;
+
 /**
  *
  * @author ACER
  */
 public class KasirPage extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(KasirPage.class.getName());
     public static tampilan.obj.Pegawai P;
+
     /**
      * Creates new form KasirPage
      */
     public KasirPage() {
         initComponents();
+        addViews(new Dashboard());
     }
 
     /**
@@ -42,6 +46,7 @@ public class KasirPage extends javax.swing.JFrame {
         labelDashboard = new javax.swing.JLabel();
         labelTransaksi = new javax.swing.JLabel();
         labelLaporan = new javax.swing.JLabel();
+        panelContent = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -104,6 +109,11 @@ public class KasirPage extends javax.swing.JFrame {
         labelTransaksi.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         labelTransaksi.setForeground(new java.awt.Color(204, 204, 204));
         labelTransaksi.setText("Transaksi");
+        labelTransaksi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                labelTransaksiMouseClicked(evt);
+            }
+        });
 
         labelLaporan.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         labelLaporan.setForeground(new java.awt.Color(204, 204, 204));
@@ -135,6 +145,9 @@ public class KasirPage extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.LINE_START);
 
+        panelContent.setLayout(new java.awt.BorderLayout());
+        getContentPane().add(panelContent, java.awt.BorderLayout.CENTER);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -150,8 +163,12 @@ public class KasirPage extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void labelDashboardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelDashboardMouseClicked
-        addViews(new tampilan.panels.Dashboard());
+        addViews(new Dashboard());
     }//GEN-LAST:event_labelDashboardMouseClicked
+
+    private void labelTransaksiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelTransaksiMouseClicked
+        addViews(new tampilan.panels.FormTransaksi());
+    }//GEN-LAST:event_labelTransaksiMouseClicked
 
     /**
      * @param args the command line arguments
@@ -186,9 +203,15 @@ public class KasirPage extends javax.swing.JFrame {
     private javax.swing.JLabel labelLaporan;
     private javax.swing.JLabel labelPenggunaKasir;
     private javax.swing.JLabel labelTransaksi;
+    private javax.swing.JPanel panelContent;
     // End of variables declaration//GEN-END:variables
 
-    private void addViews(Dashboard dashboard) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    private void addViews(javax.swing.JPanel Panel) {
+        if(panelContent.getComponentCount() > 0){
+            panelContent.removeAll();
+        }
+        panelContent.add(Panel, BorderLayout.CENTER);
+        panelContent.revalidate();
+        panelContent.repaint();
     }
 }
