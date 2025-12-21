@@ -95,7 +95,7 @@ public class KasirPage extends javax.swing.JFrame {
         getContentPane().add(jPanel3, java.awt.BorderLayout.PAGE_START);
 
         jPanel1.setBackground(new java.awt.Color(0, 51, 51));
-        jPanel1.setPreferredSize(new java.awt.Dimension(130, 389));
+        jPanel1.setPreferredSize(new java.awt.Dimension(200, 389));
 
         labelDashboard.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         labelDashboard.setForeground(new java.awt.Color(204, 204, 204));
@@ -129,7 +129,7 @@ public class KasirPage extends javax.swing.JFrame {
                     .addComponent(labelLaporan)
                     .addComponent(labelTransaksi)
                     .addComponent(labelDashboard))
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -140,7 +140,7 @@ public class KasirPage extends javax.swing.JFrame {
                 .addComponent(labelTransaksi)
                 .addGap(26, 26, 26)
                 .addComponent(labelLaporan)
-                .addContainerGap(241, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.LINE_START);
