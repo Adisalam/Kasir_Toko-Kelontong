@@ -216,6 +216,12 @@ public class FormTransaksi extends javax.swing.JPanel {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtKembali)
+                            .addComponent(txtCash)
+                            .addComponent(txtTotalBayar)))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addContainerGap()
@@ -226,13 +232,7 @@ public class FormTransaksi extends javax.swing.JPanel {
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(14, 14, 14)
                                 .addComponent(jButton1)))
-                        .addGap(0, 6, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtKembali)
-                            .addComponent(txtCash)
-                            .addComponent(txtTotalBayar))))
+                        .addGap(0, 6, Short.MAX_VALUE)))
                 .addGap(12, 12, 12))
         );
         jPanel3Layout.setVerticalGroup(
@@ -277,7 +277,21 @@ public class FormTransaksi extends javax.swing.JPanel {
     }//GEN-LAST:event_txtCariProdukActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        // 1. Logika hitung kembalian
+        double total = Double.parseDouble(txtTotalBayar.getText());
+        double cash = Double.parseDouble(txtCash.getText());
+
+        if (cash < total) {
+            JOptionPane.showMessageDialog(this, "Uang Cash Kurang!");
+        } else {
+            double kembali = cash - total;
+            txtKembali.setText(String.valueOf(kembali));
+
+            // 2. Tampilkan Nota
+            cetakNota();
+
+            // 3. Opsional: Simpan ke database transaksi (Header & Detail)
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
@@ -392,6 +406,44 @@ public class FormTransaksi extends javax.swing.JPanel {
         } catch (SQLException e) {
             System.err.println("Error Cari Data: " + e.getMessage());
         }
+    }
+
+    private void cetakNota() {
+        StringBuilder struk = new StringBuilder();
+
+        // Header Struk
+        struk.append("          TOKO KELONTONG          \n");
+        struk.append("      Jl. Raya No. 123, Kota      \n");
+        struk.append("==================================\n");
+        struk.append("Nama Barang      Qty   Subtotal   \n");
+        struk.append("----------------------------------\n");
+
+        // Mengambil data dari jTable2 (Keranjang)
+        for (int i = 0; i < jTable2.getRowCount(); i++) {
+            String nama = jTable2.getValueAt(i, 0).toString();
+            String qty = jTable2.getValueAt(i, 2).toString();
+            String subtotal = jTable2.getValueAt(i, 3).toString();
+
+            // Mengatur format agar rapi (padding)
+            if (nama.length() > 15) {
+                nama = nama.substring(0, 12) + "...";
+            }
+            struk.append(String.format("%-16s %-5s %s\n", nama, qty, subtotal));
+        }
+
+        struk.append("----------------------------------\n");
+        struk.append("Total Bayar  : Rp " + txtTotalBayar.getText() + "\n");
+        struk.append("Tunai        : Rp " + txtCash.getText() + "\n");
+        struk.append("Kembalian    : Rp " + txtKembali.getText() + "\n");
+        struk.append("==================================\n");
+        struk.append("    Terima Kasih Atas Kunjungan Anda   \n");
+
+        // Menampilkan ke JTextArea di dalam JOptionPane atau JDialog
+        javax.swing.JTextArea area = new javax.swing.JTextArea(struk.toString());
+        area.setFont(new java.awt.Font("Monospaced", java.awt.Font.PLAIN, 12));
+        area.setEditable(false);
+
+        javax.swing.JOptionPane.showMessageDialog(this, new javax.swing.JScrollPane(area), "Nota Transaksi", javax.swing.JOptionPane.INFORMATION_MESSAGE);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

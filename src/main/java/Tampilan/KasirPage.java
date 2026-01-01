@@ -118,6 +118,11 @@ public class KasirPage extends javax.swing.JFrame {
         labelLaporan.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         labelLaporan.setForeground(new java.awt.Color(204, 204, 204));
         labelLaporan.setText("Laporan");
+        labelLaporan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                labelLaporanMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -169,6 +174,10 @@ public class KasirPage extends javax.swing.JFrame {
     private void labelTransaksiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelTransaksiMouseClicked
         addViews(new tampilan.panels.FormTransaksi());
     }//GEN-LAST:event_labelTransaksiMouseClicked
+
+    private void labelLaporanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelLaporanMouseClicked
+        addViews(new tampilan.panels.RiwayatTransaksi());
+    }//GEN-LAST:event_labelLaporanMouseClicked
 
     /**
      * @param args the command line arguments

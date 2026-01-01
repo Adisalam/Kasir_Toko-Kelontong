@@ -176,6 +176,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Laporan"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="labelLaporanMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
