@@ -277,22 +277,156 @@ public class FormTransaksi extends javax.swing.JPanel {
     }//GEN-LAST:event_txtCariProdukActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // 1. Logika hitung kembalian
-        double total = Double.parseDouble(txtTotalBayar.getText());
-        double cash = Double.parseDouble(txtCash.getText());
+        prosesBayar();
+        try {
+            double total = Double.parseDouble(txtTotalBayar.getText());
+            double cash = Double.parseDouble(txtCash.getText());
 
-        if (cash < total) {
-            JOptionPane.showMessageDialog(this, "Uang Cash Kurang!");
-        } else {
+            if (cash < total) {
+                JOptionPane.showMessageDialog(this, "Uang cash kurang!");
+                return;
+            }
+
             double kembali = cash - total;
             txtKembali.setText(String.valueOf(kembali));
 
-            // 2. Tampilkan Nota
-            cetakNota();
+            // JALANKAN PROSES SIMPAN
+            int idTransaksi = simpanKeDatabase(total, cash, kembali);
 
-            // 3. Opsional: Simpan ke database transaksi (Header & Detail)
+            if (idTransaksi != -1) {
+                // MUNCULKAN NOTA
+                tampilkanNota(idTransaksi, total, cash, kembali);
+
+                // RESET FORM
+                modelKeranjang.setRowCount(0);
+                txtTotalBayar.setText("0");
+                txtCash.setText("");
+                txtKembali.setText("");
+                loadDataProduk(); // Refresh stok di tabel kiri
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Masukkan nominal angka yang benar!");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void prosesBayar() {
+        try {
+            double total = Double.parseDouble(txtTotalBayar.getText().replace(",", ""));
+            double cash = Double.parseDouble(txtCash.getText());
+
+            if (cash < total) {
+                JOptionPane.showMessageDialog(this, "Uang Cash Kurang!");
+                return;
+            }
+
+            double kembali = cash - total;
+            txtKembali.setText(String.valueOf(kembali));
+
+            Connection K = tampilan.obj.Koneksi.Go();
+            K.setAutoCommit(false);
+
+            // 1. Insert ke tabel transaksi (Sesuaikan kolom dengan SQL Anda)
+            String sqlT = "INSERT INTO transaksi (tanggal, id_user, total_harga, bayar, kembalian, metode_pembayaran) VALUES (NOW(), ?, ?, ?, ?, 'cash')";
+            java.sql.PreparedStatement psT = K.prepareStatement(sqlT, java.sql.Statement.RETURN_GENERATED_KEYS);
+            psT.setInt(1, 1);
+            psT.setDouble(2, total);
+            psT.setDouble(3, cash);
+            psT.setDouble(4, kembali);
+            psT.executeUpdate();
+
+            java.sql.ResultSet rs = psT.getGeneratedKeys();
+            int idTrans = 0;
+            if (rs.next()) {
+                idTrans = rs.getInt(1);
+            }
+
+            // 2. Insert ke detail_transaksi
+            String sqlD = "INSERT INTO detail_transaksi (id_transaksi, id_produk, jumlah, harga_satuan, subtotal) "
+                    + "VALUES (?, (SELECT id_produk FROM produk WHERE nama_produk=? LIMIT 1), ?, ?, ?)";
+            java.sql.PreparedStatement psD = K.prepareStatement(sqlD);
+
+            for (int i = 0; i < jTable2.getRowCount(); i++) {
+                psD.setInt(1, idTrans);
+                psD.setString(2, jTable2.getValueAt(i, 0).toString());
+                psD.setInt(3, Integer.parseInt(jTable2.getValueAt(i, 2).toString()));
+                psD.setDouble(4, Double.parseDouble(jTable2.getValueAt(i, 1).toString()));
+                psD.setDouble(5, Double.parseDouble(jTable2.getValueAt(i, 3).toString()));
+                psD.addBatch();
+            }
+            psD.executeBatch();
+            K.commit();
+
+            // Panggil Nota
+            tampilkanNota(idTrans, total, cash, kembali);
+
+            // Reset
+            modelKeranjang.setRowCount(0);
+            txtTotalBayar.setText("0");
+            txtCash.setText("");
+            loadDataProduk();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Gagal Simpan: " + e.getMessage());
+        }
+    }
+
+    private int simpanKeDatabase(double total, double bayar, double kembali) {
+        int id = -1;
+        try {
+            Connection K = tampilan.obj.Koneksi.Go();
+            K.setAutoCommit(false); // Mode transaksi aman
+
+            // 1. Simpan Header ke tabel 'transaksi'
+            String sqlT = "INSERT INTO transaksi (id_user, total_harga, bayar, kembalian, metode_pembayaran) VALUES (?, ?, ?, ?, 'cash')";
+            java.sql.PreparedStatement psT = K.prepareStatement(sqlT, java.sql.Statement.RETURN_GENERATED_KEYS);
+            psT.setInt(1, 1); // ID User Kasir (sementara 1)
+            psT.setDouble(2, total);
+            psT.setDouble(3, bayar);
+            psT.setDouble(4, kembali);
+            psT.executeUpdate();
+
+            java.sql.ResultSet rs = psT.getGeneratedKeys();
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
+
+            // 2. Simpan Detail & Update Stok
+            String sqlD = "INSERT INTO detail_transaksi (id_transaksi, id_produk, jumlah, harga_satuan, subtotal) "
+                    + "VALUES (?, (SELECT id_produk FROM produk WHERE nama_produk=?), ?, ?, ?)";
+            String sqlS = "UPDATE produk SET stok = stok - ? WHERE nama_produk = ?";
+
+            java.sql.PreparedStatement psD = K.prepareStatement(sqlD);
+            java.sql.PreparedStatement psS = K.prepareStatement(sqlS);
+
+            for (int i = 0; i < jTable2.getRowCount(); i++) {
+                String nama = jTable2.getValueAt(i, 0).toString();
+                double harga = Double.parseDouble(jTable2.getValueAt(i, 1).toString());
+                int qty = Integer.parseInt(jTable2.getValueAt(i, 2).toString());
+                double sub = Double.parseDouble(jTable2.getValueAt(i, 3).toString());
+
+                // Tambah ke Detail
+                psD.setInt(1, id);
+                psD.setString(2, nama);
+                psD.setInt(3, qty);
+                psD.setDouble(4, harga);
+                psD.setDouble(5, sub);
+                psD.addBatch();
+
+                // Potong Stok
+                psS.setInt(1, qty);
+                psS.setString(2, nama);
+                psS.addBatch();
+            }
+            psD.executeBatch();
+            psS.executeBatch();
+
+            K.commit(); // Simpan permanen
+        } catch (Exception e) {
+            id = -1;
+            System.err.println("Gagal simpan: " + e.getMessage());
+        }
+        return id;
+    }
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         int row = jTable1.getSelectedRow();
@@ -408,42 +542,36 @@ public class FormTransaksi extends javax.swing.JPanel {
         }
     }
 
-    private void cetakNota() {
-        StringBuilder struk = new StringBuilder();
+    private void tampilkanNota(int id, double total, double cash, double kembali) {
+        StringBuilder s = new StringBuilder();
+        s.append("          TOKO KELONTONG          \n");
+        s.append("       ID Transaksi: #").append(id).append("\n");
+        s.append("==================================\n");
+        s.append(String.format("%-16s %-4s %-10s\n", "Produk", "Qty", "Subtotal"));
+        s.append("----------------------------------\n");
 
-        // Header Struk
-        struk.append("          TOKO KELONTONG          \n");
-        struk.append("      Jl. Raya No. 123, Kota      \n");
-        struk.append("==================================\n");
-        struk.append("Nama Barang      Qty   Subtotal   \n");
-        struk.append("----------------------------------\n");
-
-        // Mengambil data dari jTable2 (Keranjang)
         for (int i = 0; i < jTable2.getRowCount(); i++) {
             String nama = jTable2.getValueAt(i, 0).toString();
             String qty = jTable2.getValueAt(i, 2).toString();
-            String subtotal = jTable2.getValueAt(i, 3).toString();
-
-            // Mengatur format agar rapi (padding)
+            String sub = jTable2.getValueAt(i, 3).toString();
             if (nama.length() > 15) {
-                nama = nama.substring(0, 12) + "...";
+                nama = nama.substring(0, 13) + "..";
             }
-            struk.append(String.format("%-16s %-5s %s\n", nama, qty, subtotal));
+            s.append(String.format("%-16s %-4s %-10s\n", nama, qty, sub));
         }
 
-        struk.append("----------------------------------\n");
-        struk.append("Total Bayar  : Rp " + txtTotalBayar.getText() + "\n");
-        struk.append("Tunai        : Rp " + txtCash.getText() + "\n");
-        struk.append("Kembalian    : Rp " + txtKembali.getText() + "\n");
-        struk.append("==================================\n");
-        struk.append("    Terima Kasih Atas Kunjungan Anda   \n");
+        s.append("----------------------------------\n");
+        s.append(String.format("TOTAL     : Rp %,.0f\n", total));
+        s.append(String.format("BAYAR     : Rp %,.0f\n", cash));
+        s.append(String.format("KEMBALIAN : Rp %,.0f\n", kembali));
+        s.append("==================================\n");
+        s.append("    Terima Kasih Atas Kunjungan Anda   \n");
 
-        // Menampilkan ke JTextArea di dalam JOptionPane atau JDialog
-        javax.swing.JTextArea area = new javax.swing.JTextArea(struk.toString());
+        javax.swing.JTextArea area = new javax.swing.JTextArea(s.toString());
         area.setFont(new java.awt.Font("Monospaced", java.awt.Font.PLAIN, 12));
         area.setEditable(false);
 
-        javax.swing.JOptionPane.showMessageDialog(this, new javax.swing.JScrollPane(area), "Nota Transaksi", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, new javax.swing.JScrollPane(area), "Pembayaran Berhasil", JOptionPane.PLAIN_MESSAGE);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

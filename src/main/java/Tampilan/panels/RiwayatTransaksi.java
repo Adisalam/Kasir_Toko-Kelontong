@@ -15,6 +15,7 @@ public class RiwayatTransaksi extends javax.swing.JPanel {
      */
     public RiwayatTransaksi() {
         initComponents();
+        loadData();
     }
 
     /**
@@ -28,16 +29,13 @@ public class RiwayatTransaksi extends javax.swing.JPanel {
 
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
         setLayout(new java.awt.BorderLayout());
 
-        jButton1.setText("Edit");
-
-        jButton2.setText("Simpan");
+        jButton1.setText("Hapus");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -47,10 +45,8 @@ public class RiwayatTransaksi extends javax.swing.JPanel {
                 .addGap(17, 17, 17)
                 .addComponent(jButton1)
                 .addGap(18, 18, 18)
-                .addComponent(jButton2)
-                .addGap(18, 18, 18)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(163, Short.MAX_VALUE))
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(213, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -58,7 +54,6 @@ public class RiwayatTransaksi extends javax.swing.JPanel {
                 .addContainerGap(33, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jButton2)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(17, 17, 17))
         );
@@ -81,10 +76,37 @@ public class RiwayatTransaksi extends javax.swing.JPanel {
         add(jScrollPane1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
+    public void loadData() {
+        // Ambil model dari jTable1 dan kosongkan data lama
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+
+        try {
+            // Panggil koneksi
+            java.sql.Connection K = tampilan.obj.Koneksi.Go();
+            java.sql.Statement S = K.createStatement();
+
+            // Query untuk mengambil data sesuai kolom yang Anda inginkan
+            // Sesuaikan nama kolom dengan tabel 'transaksi' di database Anda
+            String sql = "SELECT tanggal, metode_pembayaran, total_harga FROM transaksi ORDER BY tanggal DESC";
+            java.sql.ResultSet R = S.executeQuery(sql);
+            java.text.DecimalFormat rupiah = new java.text.DecimalFormat("#,###");
+
+            while (R.next()) {
+                Object[] data = {
+                    R.getTimestamp("tanggal"),
+                    R.getString("metode_pembayaran"),
+                    "Rp " + rupiah.format(R.getDouble("total_harga"))
+                };
+                model.addRow(data);
+            }
+        } catch (java.sql.SQLException e) {
+            System.err.println("Gagal memuat riwayat: " + e.getMessage());
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;

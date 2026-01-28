@@ -227,7 +227,7 @@ public class AddProduct extends javax.swing.JDialog {
             // Gunakan BigDecimal untuk konversi dari String ke DECIMAL
             BigDecimal hargaBeli = new BigDecimal(txtHargaBeli.getText());
             BigDecimal hargaJual = new BigDecimal(txtHargaJual.getText());
-
+            
             Connection C = Koneksi.Go();
             // Kueri INSERT baru sesuai database Anda
             String Q = "INSERT INTO produk (kode_produk, nama_produk, kategori, stok, harga_beli, harga_jual, image_path) " +

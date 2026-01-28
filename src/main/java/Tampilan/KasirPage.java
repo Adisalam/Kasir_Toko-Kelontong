@@ -60,6 +60,11 @@ public class KasirPage extends javax.swing.JFrame {
 
         labelPenggunaKasir.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         labelPenggunaKasir.setText("Nama");
+        labelPenggunaKasir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                labelPenggunaKasirMouseClicked(evt);
+            }
+        });
 
         jButton1.setBackground(new java.awt.Color(204, 0, 0));
         jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -176,8 +181,15 @@ public class KasirPage extends javax.swing.JFrame {
     }//GEN-LAST:event_labelTransaksiMouseClicked
 
     private void labelLaporanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelLaporanMouseClicked
-        addViews(new tampilan.panels.RiwayatTransaksi());
+        tampilan.panels.RiwayatTransaksi pnlRiwayat = new tampilan.panels.RiwayatTransaksi();
+        pnlRiwayat.loadData();
+        addViews(pnlRiwayat);
     }//GEN-LAST:event_labelLaporanMouseClicked
+
+    private void labelPenggunaKasirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelPenggunaKasirMouseClicked
+        Profile P = new Profile(this, true);
+        P.setVisible(true);
+    }//GEN-LAST:event_labelPenggunaKasirMouseClicked
 
     /**
      * @param args the command line arguments
@@ -216,7 +228,7 @@ public class KasirPage extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void addViews(javax.swing.JPanel Panel) {
-        if(panelContent.getComponentCount() > 0){
+        if (panelContent.getComponentCount() > 0) {
             panelContent.removeAll();
         }
         panelContent.add(Panel, BorderLayout.CENTER);

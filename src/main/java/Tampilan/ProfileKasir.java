@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-package tampilan;
+package Tampilan;
 
 import com.formdev.flatlaf.FlatLightLaf;
 
@@ -10,7 +10,7 @@ import com.formdev.flatlaf.FlatLightLaf;
  *
  * @author mnish
  */
-public class Profile extends javax.swing.JDialog {
+public class ProfileKasir extends javax.swing.JDialog {
 
     /**
      * Creates new form Profile
@@ -18,7 +18,7 @@ public class Profile extends javax.swing.JDialog {
      * @param parent
      * @param modal
      */
-    public Profile(java.awt.Frame parent, boolean modal) {
+    public ProfileKasir(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
@@ -35,8 +35,8 @@ public class Profile extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        lblNama = new javax.swing.JLabel();
+        lblJabatan = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -54,9 +54,9 @@ public class Profile extends javax.swing.JDialog {
         jLabel3.setText("jLabel3");
         jLabel3.setOpaque(true);
 
-        jLabel4.setText("jLabel4");
+        lblNama.setText("jLabel4");
 
-        jLabel5.setText("jLabel5");
+        lblJabatan.setText("jLabel5");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -71,8 +71,8 @@ public class Profile extends javax.swing.JDialog {
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblNama, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
+                    .addComponent(lblJabatan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -83,11 +83,11 @@ public class Profile extends javax.swing.JDialog {
                         .addGap(50, 50, 50)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
-                            .addComponent(jLabel4))
+                            .addComponent(lblNama))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(jLabel5)))
+                            .addComponent(lblJabatan)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(40, 40, 40)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -99,20 +99,33 @@ public class Profile extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        // TODO add your handling code here:
-        jLabel4.setText(AdminPage.P.getNama());
-        jLabel5.setText(AdminPage.P.getLevel());
+        // Ambil data dari variabel statis P di KasirPage
+    if (tampilan.KasirPage.P != null) {
+        String nama = tampilan.KasirPage.P.getNama();
+        String level = tampilan.KasirPage.P.getLevel();
+        
+        // Panggil method setProfile yang dibuat tadi
+        setProfile(nama, level);
+    }
     }//GEN-LAST:event_formWindowOpened
+
+    // Method untuk mengisi data ke label
+    public void setProfile(String nama, String jabatan) {
+        lblNama.setText(nama); 
+        lblJabatan.setText(jabatan); 
+    }
 
     /**
      * @param args the command line arguments
      */
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel lblJabatan;
+    private javax.swing.JLabel lblNama;
     // End of variables declaration//GEN-END:variables
 }
